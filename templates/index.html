@@ -1,0 +1,32 @@
+<head>
+<title>Integers to English</title>
+<meta name="author" content="Peter Elmers">
+<script type="text/javascript" src="/static/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+<div class="page">
+    <div class="header">
+        <h1><span>Learn to say big numbers!</span></h1>
+    </div>
+    <div class="fieldcontainer">
+        <input id="num_field" type="text" name="name" placeholder="number...">
+        <button id="processbtn" type="button"></button>
+    </div>
+    <table>
+    <div id="processed_value"></div>
+</table>
+</div>
+</body>
+
+<script>
+$('#num_field').keydown(function(event) {
+    if (event.keyCode == 13) {
+        $('#processbtn').trigger('click');
+    }
+});
+$('#processbtn').click(function() { 
+    $('#processed_value').load('/', {num:$('#num_field').val()});
+});
+</script>
+
