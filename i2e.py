@@ -3,10 +3,9 @@
 
 "int2en -- Convert an integer into written or expanded form"
 
-# Peter Elmers, June 2010
+# Peter Elmers
 
-from __future__ import print_function, division
-range = xrange
+from __future__ import division
 
 to_19 = ['','one','two','three','four','five','six','seven','eight',
         'nine','ten', 'eleven','twelve','thirteen','fourteen','fifteen',
@@ -15,6 +14,7 @@ to_19 = ['','one','two','three','four','five','six','seven','eight',
 tens = ['','','twenty','thirty','forty','fifty','sixty','seventy',
         'eighty','ninety']
 
+# TODO: Generate this dynamically at some point
 big_units = ['','thousand','million','billion','trillion','quadrillion',
         'quintillion','sextillion','septillion','octillion','nonillion','decillion','undecilion',
         'duodecillion','tredecillion','quattuordecillion','quindecillion',
@@ -43,22 +43,6 @@ big_units = ['','thousand','million','billion','trillion','quadrillion',
         'quinnonagintillion','sexnonagintillion','septnonagintillion','octononagintillion',
         'novemnonagintillion','centillion']
 
-def expand(integer):
-    '''Convert an integer to expanded form
-
-    Returns a list
-    '''
-    int_str = str(integer)
-    if int_str == "0":
-        return [0] # Just return 0 if that was given
-    expansion = []
-    for d in range(len(int_str)):
-        # We can't expand '0'
-        if int_str[d] != "0":
-            # Expanded form is the indexed part of the string followed by 0s
-            expansion.append(int(int_str[d] + str((len(int_str) - 1 - d)*"0")))
-    return expansion
-
 def thous_powers(integer):
     '''
     Returns an integer of how many powers of 1000 divide into given integer
@@ -66,24 +50,30 @@ def thous_powers(integer):
     res = 0
     while integer >= 1000:
         res += 1
-        integer //= 1000 # Integer = integer//1000
+        integer //= 1000
+    # could do floor log base 1000 of integer
+    # TODO: benchmark the difference
     return res
 
 def num2str(number):
+    '''
+    Given a number of string or numeric type,
+    Return a string of its English representation (American form)
+    '''
     try:
         integer = long(number)
         if integer == 0:
             # return 0 here
             return "zero"
     except:
-        if number.find('.') == -1 or len(number.split('.')) != 2:
+        if str(number).find('.') == -1 or len(str(number).split('.')) != 2:
             return "Invalid number. Only digits 0-9 and one decimal point allowed."
         else:
             # has a period, so it might be a decimal
             try:
                 # split the number around the period
-                whole = long('0'+number.split('.')[0]) # put a zero in front
-                decimal = long(number.split('.')[1])
+                whole = long('0'+str(number).split('.')[0]) # put a zero in front
+                decimal = long(str(number).split('.')[1])
             except:
                 # error when converting to long, must have not been a number
                 return "Invalid number. Only digits 0-9 allowed."
@@ -96,6 +86,7 @@ def num2str(number):
                 decimal_unit = decimal_unit[4:]
             if decimal != 1:
                 decimal_unit += 's'
+            # join the parts together
             if whole != 0:
                 return ' '.join((whole_s, "and", decimal_s, decimal_unit))
             else:
