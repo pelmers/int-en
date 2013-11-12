@@ -82,7 +82,7 @@ def num2str(number):
             # has a period, so it might be a decimal
             try:
                 # split the number around the period
-                whole = long(number.split('.')[0])
+                whole = long('0'+number.split('.')[0]) # put a zero in front
                 decimal = long(number.split('.')[1])
             except:
                 # error when converting to long, must have not been a number
@@ -96,7 +96,10 @@ def num2str(number):
                 decimal_unit = decimal_unit[4:]
             if decimal != 1:
                 decimal_unit += 's'
-            return whole_s + " and " + decimal_s +" "+ decimal_unit
+            if whole != 0:
+                return ' '.join((whole_s, "and", decimal_s, decimal_unit))
+            else:
+                return ' '.join((decimal_s, decimal_unit))
     # it's just a regular old integer
     return int2en(integer)
 
