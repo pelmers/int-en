@@ -12,10 +12,5 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(template.render({}))
 
     def post(self):
-        try:
-            num = long(self.request.get("num"))
-        except:
-            self.response.write('Invalid number')
-            return
-        self.response.write(num2str(num))
+        self.response.write(num2str(self.request.get("num")))
 

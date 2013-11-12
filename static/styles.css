@@ -6,23 +6,9 @@ body {
     line-height: 1; 
 }
 
-::selection { background: #a4dcec; }
-::-moz-selection { background: #a4dcec; }
-::-webkit-selection { background: #a4dcec; }
-
-input, textarea { 
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    outline: none; 
-}
-
 /** typography **/
 h1 {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 2.5em;
     line-height: 1.5em;
     letter-spacing: -0.05em;

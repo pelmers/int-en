@@ -69,15 +69,35 @@ def thous_powers(integer):
         integer //= 1000 # Integer = integer//1000
     return res
 
-def zero_wrapper(func):
-    def zero_checker(integer):
+def num2str(number):
+    try:
+        integer = long(number)
         if integer == 0:
+            # return 0 here
             return "zero"
-        return func(integer)
-    return zero_checker
-
-@zero_wrapper
-def num2str(integer):
+    except:
+        if number.find('.') == -1 or len(number.split('.')) != 2:
+            return "Invalid number. Only digits 0-9 and one decimal point allowed."
+        else:
+            # has a period, so it might be a decimal
+            try:
+                # split the number around the period
+                whole = long(number.split('.')[0])
+                decimal = long(number.split('.')[1])
+            except:
+                # error when converting to long, must have not been a number
+                return "Invalid number. Only digits 0-9 allowed."
+            # perform int2en on each part of the number
+            whole_s = int2en(whole)
+            decimal_s = int2en(decimal)
+            decimal_unit = int2en(10**len(number.split('.')[1])) + "th"
+            # decimal_unit will have a "one" in it if it's greater than ten
+            if decimal_unit.find("one") == 0:
+                decimal_unit = decimal_unit[4:]
+            if decimal != 1:
+                decimal_unit += 's'
+            return whole_s + " and " + decimal_s +" "+ decimal_unit
+    # it's just a regular old integer
     return int2en(integer)
 
 def int2en(integer):
@@ -101,11 +121,9 @@ def int2en(integer):
         unit_amount, remains = divmod(integer, 1000**units)
         try:
             if remains > 0:
-                res = int2en(unit_amount) + " " + big_units[
-                        units] + ", " + int2en(remains)
+                res = int2en(unit_amount) + " " + big_units[units] + ", " + int2en(remains)
             else:
-                res = int2en(unit_amount) + " " + big_units[
-                        units] + int2en(remains)
+                res = int2en(unit_amount) + " " + big_units[units] + int2en(remains)
         except IndexError:
             # IndexError means that there are more powers of thousand
             # in the integer than there are entries in the list
