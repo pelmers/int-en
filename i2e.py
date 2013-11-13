@@ -5,8 +5,6 @@
 
 # Peter Elmers
 
-from __future__ import division
-
 to_19 = ['','one','two','three','four','five','six','seven','eight',
         'nine','ten', 'eleven','twelve','thirteen','fourteen','fifteen',
         'sixteen','seventeen', 'eighteen','nineteen']
@@ -50,7 +48,7 @@ def thous_powers(integer):
     res = 0
     while integer >= 1000:
         res += 1
-        integer //= 1000
+        integer /= 1000
     # could do floor log base 1000 of integer
     # TODO: benchmark the difference
     return res
@@ -102,12 +100,12 @@ def int2en(integer):
         res = to_19[integer]
     elif 20 <= integer <= 99:
         # Only hyphenate if the second digit is not 0
-        res = ''.join([tens[integer // 10], '-' if integer % 10 != 0 else '', to_19[integer % 10]])
+        res = ''.join([tens[integer / 10], '-' if integer % 10 != 0 else '', to_19[integer % 10]])
     elif 100 <= integer <= 999:
         if integer % 100 > 0: # Whether to have a space after hundred
-            res = to_19[integer // 100] + " hundred " + int2en(integer % 100)
+            res = to_19[integer / 100] + " hundred " + int2en(integer % 100)
         else:
-            res = to_19[integer // 100] + " hundred" + int2en(integer % 100)
+            res = to_19[integer / 100] + " hundred" + int2en(integer % 100)
     elif integer >= 1000:
         units = thous_powers(integer)
         # We get the number of UNITS (ex TEN million) and the remainder
