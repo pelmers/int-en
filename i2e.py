@@ -12,34 +12,7 @@ to_19 = ['','one','two','three','four','five','six','seven','eight',
 tens = ['','','twenty','thirty','forty','fifty','sixty','seventy',
         'eighty','ninety']
 
-# TODO: Generate this dynamically at some point
-big_units = ['','thousand','million','billion','trillion','quadrillion',
-        'quintillion','sextillion','septillion','octillion','nonillion','decillion','undecilion',
-        'duodecillion','tredecillion','quattuordecillion','quindecillion',
-        'sexdecillion','septendecillion','octodecillion',
-        'novemdecillion','vingtillion','unvigintillion','duovigintillion',
-        'trevigintillion','quattuorvigintillion','quinvigintillion',
-        'sexvigintillion','septenvigintillion','octovigintillion',
-        'novemvigintillion','trigintillion','untrigintillion','duotrigintillion',
-        'tretrigintillion','quattourtrigintillion','quintrigintillion',
-        'sextrigintillion','septtrigintillion','octotrigintillion','novemtrigintillion',
-        'quadragintillion','unquadragintillion','duoquadragintillion','trequadragintillion',
-        'quattuorquadragintillion','quinquadragintillion','sexquadragintillion',
-        'septquadragintillion','octoquadragintillion','novemquadragintillion',
-        'quinquagintillion','unquinquagintillion','duoquinquagintillion','trequinquagintillion',
-        'quattuorquinquagintillion','quinquinquagintillion','sexquinquagintillion',
-        'septquinquagintillion','octoquinquagintillion','novemquinquagintillion',
-        'sexagintillion','unsexagintillion','duosexagintillion','tresexagintillion',
-        'quattuorsexagintillion','quinsexagintillion','sexsexagintillion','septsexagintillion',
-        'octosexagintillion','novemsexagintillion','septuagintillion','unseptuagintillion',
-        'duoseptuagintillion','treseptuagintillion','quattuorseptuagintillion',
-        'quinseptuagintillion','sexseptuagintillion','septseptuagintillion','octoseptuagintillion',
-        'novemseptuagintillion','octogintillion','unoctogintillion','duooctogintillion',
-        'treoctogintillion','quattuoroctogintillion','quinoctogintillion','sexoctogintillion',
-        'septoctogintillion','octooctogintillion','novemoctogintillion','nonagintillion',
-        'unnonagintillion','duononagintillion','trenonagintillion','quattuornonagintillion',
-        'quinnonagintillion','sexnonagintillion','septnonagintillion','octononagintillion',
-        'novemnonagintillion','centillion']
+from big_units import big_units, name_ten_power
 
 def thous_powers(integer):
     '''
@@ -119,7 +92,8 @@ def int2en(integer):
         except IndexError:
             # IndexError means that there are more powers of thousand
             # in the integer than there are entries in the list
-            res = "It's over 1000 centillion!!!"
+            # So we call name_ten_power, which deals with this issue
+            res = int2en(unit_amount) + " " + name_ten_power(units*3+3) + int2en(remains)
     elif integer < 0:
         res = "negative " + int2en(-integer)
     return res
