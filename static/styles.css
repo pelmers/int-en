@@ -107,11 +107,10 @@ h1 > span {
 }
 
 .footer {
-    font-size: 1.3em;
+    font-size: 10pt;
     text-align: right;
     opacity: 0.5;
-    font-family: "Inconsolata", "Courier New", monospace;
-    text-decoration:none
+    font-family: monospace;
 }
 
 a:link {text-decoration:none;}
