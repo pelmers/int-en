@@ -40,11 +40,13 @@ def num2str(number):
         # scientific notation
         if str(number).find('e') != -1:
             mantissa = str(number).split('e')[0] # everything left of the e
+            place_shift = 0
             # remove the dot in the mantissa if it has one, I'll add it later
             if mantissa.find('.') != -1:
                 if (mantissa[:mantissa.find('.')] == '' or 
                         not (0 < abs(int(mantissa[:mantissa.find('.')])) < 10)):
                     return "The part left of the e must be greater than 1 and less than 10."
+                place_shift = len(mantissa[mantissa.find('.'):]) - 1
                 mantissa = mantissa[:mantissa.find('.')] + mantissa[mantissa.find('.')+1:]
             exponent = int(str(number).split('e')[1]) # everything left of the e
             try:
@@ -52,7 +54,12 @@ def num2str(number):
                     return "I'm on free tier GAE. Stop it."
                 if exponent > 0:
                     # add 0's to the end
-                    return num2str(''.join([mantissa] + ['0' for i in range(exponent)]))
+                    if place_shift <= exponent:
+                        return num2str(''.join([mantissa] + ['0' for i in range(exponent-place_shift)]))
+                    else:
+                        # there's a decimal part even when the number is multiplied by 10^e
+                        # pass it back through with '.' inserted at the right spot
+                        return num2str('.'.join([mantissa[:place_shift], mantissa[place_shift:]]))
                 elif exponent < 0:
                     # add 0's to the front; if mantissa is negative, put a negative sign in front too
                     if mantissa[0] == '-':
@@ -66,6 +73,7 @@ def num2str(number):
             except:
                 return "Invalid number. Only digits 0-9 and one decimal point and one 'e' allowed."
             
+        # decimals
         if str(number).find('.') == -1 or len(str(number).split('.')) != 2:
             return "Invalid number. Only digits 0-9 and one decimal point and one 'e' allowed."
         else:
