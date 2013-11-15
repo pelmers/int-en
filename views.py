@@ -15,3 +15,10 @@ class MainHandler(webapp2.RequestHandler):
     def post(self):
         self.response.write(int2en(self.request.get("num")))
 
+class WarmupHandler(webapp2.RequestHandler):
+    def get(self):
+        # warm up the cache with a few quick examples
+        int2en('1')
+        int2en('0.1')
+        int2en('1e1')
+
