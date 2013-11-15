@@ -50,7 +50,38 @@ def _handle_decimal(number):
     else:
         return ' '.join((decimal_en, decimal_unit))
 
+def _i2e(str_integer):
+    '''
+    Given str_integer, a string representation of an integer,
+    Return its the American English written form.
+    '''
+    # pad zeros to the front to make it divisible by 3
+    str_integer = _pad_with_zeros(str_integer)
+    # go through by 3's and add the repr of each thousand
+    en = [to_1000[str_integer[t*3:t*3+3]] for t in range(len(str_integer)/3)]
+    # join the chain of thousands together
+    return join_thousands_chain(en)
+
+def join_thousands_chain(thousands_chain):
+    '''
+    Given a list of strings representing coefficients of the number in 1000's,
+    Join the coefficients together and insert the appropriate number names.
+    Note: List is ordered in most significant to least significant digits.
+    Ex: jtc(['one','three hundred','']) => one million, three hundred thousand
+    '''
+    thous_names = [name_thousand_power(len(thousands_chain) - i - 1)
+            for i in range(len(thousands_chain)) if thousands_chain[i] != '']
+    # strip the empties from thousands_chain
+    thousands_chain = [i for i in thousands_chain if i]
+    # join the names with the numbers with commas and spaces
+    return ', '.join(' '.join(n) for n in zip(thousands_chain, thous_names)).strip()
+
 def int2en(number):
+    '''
+    Given a number or string representation of a number,
+    Return the American English written form of the number.
+    Number can be an integer or decimal. Scientific e-notation supported.
+    '''
     # make it a string if it isn't one already
     if type(number) != str:
         return int2en(str(number))
@@ -77,33 +108,7 @@ def int2en(number):
             return "Malformed decimal number."
     # should be regular old number
     try:
-        return i2e(number)
+        return _i2e(number)
     except:
         return "Exception occurred. Please review the input expression."
-
-def i2e(str_integer):
-    '''
-    Given str_integer, a string representation of an integer,
-    Return its the American English written form.
-    '''
-    # pad zeros to the front to make it divisible by 3
-    str_integer = _pad_with_zeros(str_integer)
-    # go through by 3's and add the repr of each thousand
-    en = [to_1000[str_integer[t*3:t*3+3]] for t in range(len(str_integer)/3)]
-    # join the chain of thousands together
-    return join_thousands_chain(en)
-
-def join_thousands_chain(thousands_chain):
-    '''
-    Given a list of strings representing coefficients of the number in 1000's,
-    Join the coefficients together and insert the appropriate number names.
-    Note: List is ordered in most significant to least significant digits.
-    Ex: jtc(['one','three hundred','']) => one million, three hundred thousand
-    '''
-    thous_names = [name_thousand_power(len(thousands_chain) - i - 1)
-            for i in range(len(thousands_chain)) if thousands_chain[i] != '']
-    # strip the empties from thousands_chain
-    thousands_chain = [i for i in thousands_chain if i]
-    # join the names with the numbers with commas and spaces
-    return ', '.join(' '.join(n) for n in zip(thousands_chain, thous_names)).strip()
 
