@@ -43,21 +43,25 @@ def num2str(number):
             # remove the dot in the mantissa if it has one, I'll add it later
             if mantissa.find('.') != -1:
                 if (mantissa[:mantissa.find('.')] == '' or 
-                        not (0 < int(mantissa[:mantissa.find('.')]) < 10)):
+                        not (0 < abs(int(mantissa[:mantissa.find('.')])) < 10)):
                     return "The part left of the e must be greater than 1 and less than 10."
                 mantissa = mantissa[:mantissa.find('.')] + mantissa[mantissa.find('.')+1:]
             exponent = int(str(number).split('e')[1]) # everything left of the e
             try:
                 if abs(exponent) > 10000:
                     return "I'm on free tier GAE. Stop it."
-                number = mantissa
                 if exponent > 0:
                     # add 0's to the end
                     return num2str(''.join([mantissa] + ['0' for i in range(exponent)]))
                 elif exponent < 0:
-                    # add 0's to the front
-                    return num2str(''.join(['0.'] + ['0' for i in range(-exponent-1)] + [mantissa]))
+                    # add 0's to the front; if mantissa is negative, put a negative sign in front too
+                    if mantissa[0] == '-':
+                        print '-'+''.join(['0.'] + ['0' for i in range(-exponent-1)] + [mantissa[1:]])
+                        return num2str('-'+''.join(['0.'] + ['0' for i in range(-exponent-1)] + [mantissa[1:]]))
+                    else:
+                        return num2str(''.join(['0.'] + ['0' for i in range(-exponent-1)] + [mantissa]))
                 else:
+                    # exponent is 0
                     return num2str(int(mantissa)/abs(int(mantissa)))
             except:
                 return "Invalid number. Only digits 0-9 and one decimal point and one 'e' allowed."
@@ -68,7 +72,10 @@ def num2str(number):
             # has a period, so it might be a decimal
             try:
                 # split the number around the period
-                whole = long('0'+str(number).split('.')[0]) # put a zero in front
+                if number[0] != '-':
+                    whole = long('0'+str(number).split('.')[0]) # put a zero in front
+                else:
+                    whole = -long('0'+str(number[1:]).split('.')[0])
                 decimal = long(str(number).split('.')[1])
             except:
                 # error when converting to long, must have not been a number
@@ -86,7 +93,10 @@ def num2str(number):
             if whole != 0:
                 return ' '.join((whole_s, "and", decimal_s, decimal_unit))
             else:
-                return ' '.join((decimal_s, decimal_unit))
+                if number[0] == '-':
+                    return 'negative '+' '.join((decimal_s, decimal_unit))
+                else:
+                    return ' '.join((decimal_s, decimal_unit))
     # it's just a regular old integer
     return int2en(integer)
 
