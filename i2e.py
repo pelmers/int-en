@@ -42,8 +42,9 @@ def num2str(number):
             mantissa = str(number).split('e')[0] # everything left of the e
             # remove the dot in the mantissa if it has one, I'll add it later
             if mantissa.find('.') != -1:
-                if int(mantissa[:mantissa.find('.')]) >= 10:
-                    return "The part left of the e must be less than 10."
+                if (mantissa[:mantissa.find('.')] == '' or 
+                        not (0 < int(mantissa[:mantissa.find('.')]) < 10)):
+                    return "The part left of the e must be greater than 1 and less than 10."
                 mantissa = mantissa[:mantissa.find('.')] + mantissa[mantissa.find('.')+1:]
             exponent = int(str(number).split('e')[1]) # everything left of the e
             try:
