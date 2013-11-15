@@ -16,7 +16,6 @@
 #
 import views
 import webapp2
-from i2e import num2str
 
 app = webapp2.WSGIApplication([
     ('/', views.MainHandler)

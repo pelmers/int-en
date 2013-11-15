@@ -106,3 +106,14 @@ h1 > span {
     vertical-align: middle;
 }
 
+.footer {
+    font-size: 1.3em;
+    text-align: right;
+    opacity: 0.5;
+    font-family: "Inconsolata", "Courier New", monospace;
+    text-decoration:none
+}
+
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:active {text-decoration:underline;}

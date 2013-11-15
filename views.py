@@ -1,6 +1,7 @@
 import webapp2, os
 from i2e import num2str
 
+# Leaving this here because I might use templates one day
 #JINJA_ENV = jinja2.Environment(
         #loader = jinja2.FileSystemLoader(os.path.dirname(__file__)),
         #extensions = ['jinja2.ext.autoescape'],
