@@ -93,7 +93,7 @@ def int2en(integer):
             # IndexError means that there are more powers of thousand
             # in the integer than there are entries in the list
             # So we call name_ten_power, which deals with this issue
-            res = int2en(unit_amount) + " " + name_ten_power(units*3+3) + int2en(remains)
+            res = int2en(unit_amount) + " " + name_ten_power(units*3+3) + " " + int2en(remains)
     elif integer < 0:
         res = "negative " + int2en(-integer)
     return res
