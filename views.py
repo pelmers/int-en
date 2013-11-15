@@ -1,5 +1,5 @@
 import webapp2, os
-from i2e import num2str
+from int2en import int2en
 
 # Leaving this here because I might use templates one day
 #JINJA_ENV = jinja2.Environment(
@@ -13,5 +13,5 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(index.read())
 
     def post(self):
-        self.response.write(num2str(self.request.get("num")))
+        self.response.write(int2en(self.request.get("num")))
 
