@@ -3,6 +3,8 @@
 
 from num_names import to_1000, name_thousand_power, _pad_with_zeros
 
+_valid_chars = set([str(i) for i in range(10)] + ['e','.','-'])
+
 def _handle_scientific_notation(number):
     '''
     Handle scientific notation by turning it into a decimal number
@@ -52,6 +54,9 @@ def int2en(number):
     # make it a string if it isn't one already
     if type(number) != str:
         return int2en(str(number))
+    # any invalid characters?
+    if any(c not in _valid_chars for c in number):
+        return "Invalid characters detected. Allowed: [0-9], e, ., -"
     # is it zero?
     if all(c == '0' for c in number):
         return "zero"
@@ -60,12 +65,21 @@ def int2en(number):
         return 'negative ' + int2en(number[1:])
     # is it in scientific notation?
     if number.find('e') != -1:
-        return _handle_scientific_notation(number)
+        try:
+            return _handle_scientific_notation(number)
+        except:
+            return "Malformed scientific notation expression."
     # is it a decimal number?
     if number.find('.') != -1:
-        return _handle_decimal(number)
-    # regular old number
-    return i2e(number)
+        try:
+            return _handle_decimal(number)
+        except:
+            return "Malformed decimal number."
+    # should be regular old number
+    try:
+        return i2e(number)
+    except:
+        return "Exception occurred. Please review the input expression."
 
 def i2e(str_integer):
     '''
