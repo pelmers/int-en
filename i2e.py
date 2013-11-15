@@ -37,8 +37,32 @@ def num2str(number):
             # return 0 here
             return "zero"
     except:
+        # scientific notation
+        if str(number).find('e') != -1:
+            mantissa = str(number).split('e')[0] # everything left of the e
+            # remove the dot in the mantissa if it has one, I'll add it later
+            if mantissa.find('.') != -1:
+                if int(mantissa[:mantissa.find('.')]) >= 10:
+                    return "The part left of the e must be less than 10."
+                mantissa = mantissa[:mantissa.find('.')] + mantissa[mantissa.find('.')+1:]
+            exponent = int(str(number).split('e')[1]) # everything left of the e
+            try:
+                if abs(exponent) > 10000:
+                    return "I'm on free tier GAE. Stop it."
+                number = mantissa
+                if exponent > 0:
+                    # add 0's to the end
+                    return num2str(''.join([mantissa] + ['0' for i in range(exponent)]))
+                elif exponent < 0:
+                    # add 0's to the front
+                    return num2str(''.join(['0.'] + ['0' for i in range(-exponent-1)] + [mantissa]))
+                else:
+                    return num2str(int(mantissa)/abs(int(mantissa)))
+            except:
+                return "Invalid number. Only digits 0-9 and one decimal point and one 'e' allowed."
+            
         if str(number).find('.') == -1 or len(str(number).split('.')) != 2:
-            return "Invalid number. Only digits 0-9 and one decimal point allowed."
+            return "Invalid number. Only digits 0-9 and one decimal point and one 'e' allowed."
         else:
             # has a period, so it might be a decimal
             try:
