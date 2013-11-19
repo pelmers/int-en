@@ -45,30 +45,46 @@ def _join_name(name):
             if (mark in _spell_markings[name[2]] or (
                 'x' in _spell_markings[name[2]] and name[0] == 'tre')):
                 return ''.join([name[0], mark, name[2]])
-    return ''.join(name)
+    res = ''.join(name)
+    if res[-1] == 'a':
+        return res[:-1] + 'i'
+    return res
 
-def _ntp_helper(exp):
+def _ntp_conway_guy(exp):
     """
     Return the name of the power of thousand by building it from a set of rules
-    Used for numbers > 1000**100
+    Used for numbers in [1000**100, 1000**1000]
     Reference: The Book of Numbers, 1996, by John Conway and Richard Guy
     """
-    name = [_big_num_table[0][exp % 10], _big_num_table[1][(exp%100 - exp%10)/10]]
-    if exp < 1000:
-        name.append(_big_num_table[2][exp / 100])
-    else:
-        name.append(_ntp_helper(exp/100))
+    name = [_big_num_table[0][exp % 10], _big_num_table[1][(exp%100 - exp%10)/10],
+            _big_num_table[2][exp / 100]]
     return _join_name(name)
+
+def _ntp_conway_wechsler(exp):
+    """
+    Return the name of the power of thousand according to the convention:
+    XilliYilliZillion = (1000000X + 1000Y + Z)th zillion
+    Reference: The Book of Numbers
+    """
+    x = exp / 1000000
+    y = (exp % 1000000) / 1000
+    z = exp % 1000
+    xname = '' if x == 0 else name_thousand_power(x+1)
+    yname = 'nillion' if y == 0 else name_thousand_power(y+1)
+    zname = 'nillion' if z == 0 else name_thousand_power(z+1)
+    return ''.join([xname[:-2], yname[:-2], zname])
 
 def name_thousand_power(exp):
     """
     Name the number represented by 1000**exp,
     Uses a lookup table for smaller numbers.
     """
-    if exp < 100:
+    if exp <= 101:
         return _big_units[exp]
+    elif exp <= 1000:
+        return _ntp_conway_guy(exp-1) + 'llion'
     else:
-        return _ntp_helper(exp) + 'llion'
+        return _ntp_conway_wechsler(exp-1)
 
 _to_19 = ['','one','two','three','four','five','six','seven','eight',
         'nine','ten', 'eleven','twelve','thirteen','fourteen','fifteen',
@@ -105,7 +121,7 @@ _big_units = ['','thousand','million','billion','trillion','quadrillion',
         'quinnonagintillion','sexnonagintillion','septnonagintillion','octononagintillion',
         'novemnonagintillion','centillion']
 
-_big_num_table = [['','un','duo','tre','quattor','quinqua','se','septe','octo','nove'],
+_big_num_table = [['','un','duo','tre','quattuor','quinqua','se','septe','octo','nove'],
         ['','deci','viginti','triginta','quadraginta','quinquaginta','sexaginta','septuaginta','octoginta','nonaginta'],
         ['','centi','ducenti','trecenti','quadringenti','quingenti','sescenti','septingenti','octingenti','nongenti']]
 
