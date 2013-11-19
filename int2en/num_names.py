@@ -1,5 +1,7 @@
 "num_names -- Support module for int2en that contains the names of numbers"
 
+from collections import defaultdict
+
 # Peter Elmers
 
 def _i2e_1000(integer):
@@ -38,7 +40,7 @@ def _join_name(name):
             if (mark in _spell_markings[name[1]] or (
                     'x' in _spell_markings[name[1]] and name[0] == 'tre')):
                 return ''.join([mark.join(name[:2]), name[2]])
-    elif name[0] in _spell_markings and not name[1] and name[2] in _spell_markings:
+    elif name[0] in _spell_markings and not (name[1] and name[2] in _spell_markings):
         for mark in _spell_markings[name[0]]:
             if (mark in _spell_markings[name[2]] or (
                 'x' in _spell_markings[name[2]] and name[0] == 'tre')):
@@ -107,11 +109,12 @@ _big_num_table = [['','un','duo','tre','quattor','quinqua','se','septe','octo','
         ['','deci','viginti','triginta','quadraginta','quinquaginta','sexaginta','septuaginta','octoginta','nonaginta'],
         ['','centi','ducenti','trecenti','quadringenti','quingenti','sescenti','septingenti','octingenti','nongenti']]
 
-_spell_markings = {'tre':{'s'},'se':{'s','x'}, 'septe':{'m','n'}, 'nove':{'m','n'},
+_spell_markings = defaultdict(list)
+_spell_markings.update({'tre':{'s'},'se':{'s','x'}, 'septe':{'m','n'}, 'nove':{'m','n'},
         'deci':{'n'}, 'viginti':{'m','s'}, 'triginta':{'n','s'}, 'quadraginta':{'n','s'},
         'quinquaginta':{'n','s'}, 'sexaginta':{'n'}, 'septuaginta':{'n'}, 'octoginta':{'m','x'},
         'centi':{'n','x'}, 'ducenti':{'n'}, 'trecenti':{'n','s'}, 'quadringenti':{'n','s'},
-        'quingenti':{'n','s'}, 'sescenti':{'n'}, 'septingenti':{'n'}, 'octingenti':{'m','x'}}
+        'quingenti':{'n','s'}, 'sescenti':{'n'}, 'septingenti':{'n'}, 'octingenti':{'m','x'}})
 
 # build the lookup table up to 1000
 to_1000 = {_pad_with_zeros(str(s)) : _i2e_1000(s) for s in range(1000)}

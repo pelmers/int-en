@@ -14,6 +14,9 @@ def _handle_scientific_notation(number):
     # mantissa must be between 1 and 10
     if not (1 <= float(mantissa) < 10):
         return "Mantissa of scientific notation should be in range [1, 10)"
+    # too big an exponent will chew through my allotted server resources
+    if abs(exponent) > 10000000: # 10 million digits
+        return "> %s" % name_thousand_power(exponent/3)
     if exponent > 0:
         place_shift = len(mantissa[mantissa.find('.'):]) - 1
         # positive exponent
@@ -36,6 +39,8 @@ def _handle_decimal(number):
     Handle decimals by splitting the whole and decimal parts
     '''
     whole, decimal = number.split('.')
+    # strip trailing zeros from the decimal
+    decimal = decimal.rstrip('0')
     # treat the parts before and after the dot as regular integers
     whole_en = int2en(whole)
     decimal_en = int2en(decimal)
@@ -85,11 +90,13 @@ def int2en(number):
     # make it a string if it isn't one already
     if type(number) != str:
         return int2en(str(number))
+    # strip leading zeros
+    number = number.lstrip('0')
     # any invalid characters?
     if any(c not in _valid_chars for c in number):
         return "Invalid characters detected. Allowed: [0-9], e, ., -"
     # is it zero?
-    if all(c == '0' for c in number):
+    if all(c == '0' for c in number.replace('.','')):
         return "zero"
     # is it negative?
     if number[0:1] == '-':
