@@ -25,5 +25,11 @@ class TestInt2En(unittest.TestCase):
         self.assertEqual(int2en('1.1'), 'one and one tenth')
         self.assertEqual(int2en('-0067.13'), 'negative sixty-seven and thirteen hundredths')
 
+    def test_negative(self):
+        self.assertEqual(int2en('-100'), 'negative one hundred')
+        self.assertEqual(int2en('100'), 'one hundred')
+        self.assertEqual(int2en('-----1000'), 'negative one thousand')
+        self.assertEqual(int2en('----1000'), 'one thousand')
+
 if __name__=='__main__':
     unittest.main()

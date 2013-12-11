@@ -102,7 +102,9 @@ def int2en(number, shift = 0):
         return "zero"
     # is it negative?
     if number[0:1] == '-':
-        return 'negative ' + int2en(number[1:])
+        if (len(number) - len(number.lstrip('-'))) % 2 == 0:
+            return int2en(number.lstrip('-'))
+        return 'negative ' + int2en(number.lstrip('-'))
     # is it in scientific notation?
     if number.find('e') != -1:
         try:
