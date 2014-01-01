@@ -19,5 +19,4 @@ import webapp2
 
 app = webapp2.WSGIApplication([
     ('/', views.MainHandler),
-    ('/_ah/warmup', views.WarmupHandler),
 ], debug=False)
