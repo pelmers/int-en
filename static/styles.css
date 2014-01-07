@@ -1,13 +1,9 @@
 body { 
     background: #efefef;
-    font-size: 60%;
 }
 
 /** typography **/
-h1 {
-    font-size: 2.5em;
-    line-height: 1.5em;
-    letter-spacing: -0.05em;
+h2 {
     margin-bottom: 20px;
     padding: .1em 0;
     color: #444;
@@ -16,7 +12,7 @@ h1 {
     white-space: nowrap;
     text-align: center;
 }
-h1:before, h1:after {
+h2:before, h2:after {
     content: "";
     position: relative;
     display: inline-block;
@@ -25,18 +21,13 @@ h1:before, h1:after {
     vertical-align: middle;
     background: #d0e0f0;
 }
-h1:before {    
+h2:before {    
     left: -.5em;
     margin: 0 0 0 -50%;
 }
-h1:after {    
+h2:after {    
     left: .5em;
     margin: 0 -50% 0 0;
-}
-h1 > span {
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal;
 }
 
 /** page structure **/
@@ -70,7 +61,6 @@ h1 > span {
     padding: 11px 7px;
     padding-right: 43px;
     background-color: #fff;
-    font-size: 1.6em;
     color: #ccc;
     border: 1px solid #c8c8c8;
     border-bottom-color: #d2e2e7;
@@ -95,9 +85,6 @@ h1 > span {
 
 #processed_value {
     font-family: Verdana, sans-serif;
-    font-size: 1.75em;
-    line-height: 1.5em;
-    letter-spacing: -0.05em;
     margin-bottom: 20px;
     padding: .1em 0;
     color: #444;
@@ -105,7 +92,3 @@ h1 > span {
     display: inline-block;
     vertical-align: middle;
 }
-
-a:link {text-decoration:none;}
-a:visited {text-decoration:none;}
-a:active {text-decoration:underline;}
