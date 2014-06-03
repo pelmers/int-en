@@ -31,5 +31,8 @@ class TestInt2En(unittest.TestCase):
         self.assertEqual(int2en('-----1000'), 'negative one thousand')
         self.assertEqual(int2en('----1000'), 'one thousand')
 
+    def test_eval(self):
+        self.assertEqual(int2en('(-100+101)**300'), 'one')
+
 if __name__=='__main__':
     unittest.main()

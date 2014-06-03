@@ -1,6 +1,7 @@
 from num_names import to_1000, name_thousand_power, _pad_with_zeros
 
 _valid_chars = set([str(i) for i in range(10)] + ['e','.','-'])
+_valid_operators = set(['+','-','*','/','(',')'])
 
 def _handle_scientific_notation(number):
     '''
@@ -92,11 +93,16 @@ def int2en(number, shift = 0):
     # make it a string if it isn't one already
     if type(number) != str:
         return int2en(str(number))
-    # strip leading zeros and trailing dots
-    number = number.lstrip('0').rstrip('.')
     # any invalid characters?
     if any(c not in _valid_chars for c in number):
-        return "Invalid characters detected. Allowed: [0-9], e, ., -"
+        number = ''.join((c for c in number if c in _valid_operators or c in _valid_chars))
+        try:
+            number = str(eval(number))
+        except:
+            return "Invalid characters detected. Allowed: [0-9], e, ., -"
+        return int2en(number)
+    # strip leading zeros and trailing dots
+    number = number.lstrip('0').rstrip('.')
     # is it zero?
     if all(c == '0' for c in number.replace('.','')):
         return "zero"
