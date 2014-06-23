@@ -41,7 +41,6 @@ h2:after {
     padding: 25px 20px;
     padding-bottom: 35px;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 1px 2px 0px;
-    word-wrap:break-word;
 }
 
 .fieldcontainer {
@@ -84,6 +83,7 @@ h2:after {
 }
 
 #processed_value {
+    width: 100%;
     font-family: Verdana, sans-serif;
     margin-bottom: 20px;
     padding: .1em 0;
@@ -91,4 +91,5 @@ h2:after {
     position: relative;
     display: inline-block;
     vertical-align: middle;
+    word-wrap: break-word;
 }
