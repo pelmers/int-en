@@ -61,7 +61,7 @@ def _handle_decimal(number):
 def _i2e(str_integer, shift = 0):
     '''
     Given str_integer, a string representation of an integer,
-    Return its the American English written form.
+    Return its American English written form.
     '''
     # pad zeros to the front to make it divisible by 3
     str_integer = _pad_with_zeros(str_integer)
