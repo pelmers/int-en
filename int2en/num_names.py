@@ -28,7 +28,7 @@ def _pad_with_zeros(str_num):
     if len(str_num) % 3 == 0:
         return str_num
     else:
-        return '0'*((((len(str_num)%3)-1)^1)+1) + str_num
+        return '0'*(3 - len(str_num) % 3) + str_num
 
 def _join_name(name):
     """
